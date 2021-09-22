@@ -6,6 +6,8 @@ import webbrowser
 import os
 import smtplib
 from requests import get
+import requests
+import json
 
 # import pywhatkit
 
@@ -153,4 +155,34 @@ if __name__ == "__main__" :
     #       except Exception as e:
     #           print(e)
     #           speak("Soory, I can't send this message at the moment...!")
+
+
+      elif "weather" in query:
+          api_key="8ef61edcf1c576d65d836254e11ea420"
+          base_url="https://api.openweathermap.org/data/2.5/weather?"
+          speak("whats the city name")
+          city_name=takeCommand()
+          complete_url=base_url+"appid="+api_key+"&q="+city_name
+          response = requests.get(complete_url)
+          x=response.json()
+          if x["cod"]!="404":
+              y=x["main"]
+              current_temperature = y["temp"]
+              current_humidiy = y["humidity"]
+              z = x["weather"]
+              weather_description = z[0]["description"]
+              speak(" Temperature in kelvin unit is " +
+                    str(current_temperature) +
+                    "\n humidity in percentage is " +
+                    str(current_humidiy) +
+                    "\n description  " +
+                    str(weather_description))
+              print(" Temperature in kelvin unit = " +
+                    str(current_temperature) +
+                    "\n humidity (in percentage) = " +
+                    str(current_humidiy) +
+                    "\n description = " +
+                    str(weather_description))  
+          else:
+              speak(" City Not Found ")
 
