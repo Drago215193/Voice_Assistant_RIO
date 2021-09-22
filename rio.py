@@ -5,10 +5,13 @@ import wikipedia
 import webbrowser
 import os
 import smtplib
+from requests import get
+
+# import pywhatkit
 
 engine = pyttsx3.init('sapi5')
 voices =engine.getProperty('voices') 
-# print(voices[3])
+# print(voices[2])
 engine.setProperty('voice', voices[3].id)
 
 
@@ -34,7 +37,7 @@ def takeCommand():
     #it takes microphonic input from the user and return string output
     r = sr.Recognizer()
     with sr.Microphone() as source:
-        print("Listening.....")
+        print("Listening .....")
         r.pause_threshold = 1 
         audio =r.listen(source)
 
@@ -47,7 +50,7 @@ def takeCommand():
     
     except Exception as e:
        # print(e)
-        print("Say that again please......")
+        print("Say that again please .....")
         return "None"
     return query
 
@@ -61,7 +64,7 @@ def sendEmail(to,content):
 
 
 if __name__ == "__main__" :
-  #  speak("ballee ballee, teeh shaawa shaawa. peo peo, teeh kawa kawaa!!!!")
+
   wishMe()
   while True :
 
@@ -77,30 +80,29 @@ if __name__ == "__main__" :
 
       elif 'your name' in query:
           name=('Sir, My name is Rio')
-          speak(name)
-          print(name)    
+          print(name)  
+          speak(name)  
 
       elif 'open youtube' in query:
           webbrowser.open("youtube.com")
 
       elif 'open google' in query:
-          webbrowser.open("google.com")
+          speak("Sir, What should i search on Google")
+          cm=takeCommand().lower()
+          print(cm)
+          webbrowser.open(f"{cm}")
 
       elif 'open stackoverflow' in query:
           webbrowser.open("stackoverflow.com")
 
-      elif 'you like' in query:
-          like=('Sir I like My creators, and as a hobbie i like to do your help')
-          speak(like)
+      elif 'you like' in query or 'your hobbies' in query:
+          like=('Sir I like My creators, and as a hobby i like to do your help')
           print(like)
-
-      elif 'your hobbies' in query:
-          like=('Sir I like My creators, and as a hobbie i like to do your help')
           speak(like)
-          print(like)
 
-      elif 'play music' in query:
-          music_dir = 'D:\\va\\songs'
+
+      elif 'play music' in query or 'play song' in query or 'play a song' in query:
+          music_dir = 'D:\\RIO\\songs'
           songs = os.listdir(music_dir)
           print(songs)
           os.startfile(os.path.join(music_dir, songs[0]))
@@ -114,17 +116,7 @@ if __name__ == "__main__" :
           codepath= "C:\\Users\\PC-ASUS\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe"
           os.startfile(codepath)
 
-      elif 'you do' in query:
-          you_do= ("Sir, my job is to answer your fucking queries")
-          speak(you_do)
-          print(you_do)
-
-      elif 'help me' in query:
-          you_do= ("Sir, my job is to answer your fucking queries")
-          speak(you_do)
-          print(you_do)
-          
-      elif 'your job' in query:
+      elif 'you do' in query or 'help me' in query or 'your job' in query:
           you_do= ("Sir, my job is to answer your fucking queries")
           speak(you_do)
           print(you_do)
@@ -139,3 +131,26 @@ if __name__ == "__main__" :
           except Exception as e:
               print(e)
               speak("Soory, I can't send this email at the moment...!")
+      elif "ip address"  in query:
+             ip=get("http://api.ipify.org").text
+             print(f"your IP address is {ip}")
+             speak(f"your IP address is{ip}")
+
+    #   elif "whatsapp message" in query:
+    #       try:
+    #           speak("To Whom")
+    #           num=int(input(("To Whom(Phone Number Including +91)---)"))
+    #           speak("what should I say?")
+    #           msg =takeCommand()
+    #           speak("at which hour")
+    #           h=int(input("Enter Hour---"))
+    #           print(h)
+    #           speak("at what minute")
+    #           m=int(input("Enter Minute---"))
+    #           print(m)
+    #           pywhatkit.sendwhatmsg(num,msg,h,m)
+    #           speak("Message has been sent!")
+    #       except Exception as e:
+    #           print(e)
+    #           speak("Soory, I can't send this message at the moment...!")
+
